@@ -1,0 +1,102 @@
+****************
+* Project 5: MineWalker Game
+* CS 121
+* 10 December 2014
+* Eric Miller
+**************** 
+
+PROJECT OVERVIEW:
+
+Creates a GUI in which the user can play a game. The user navigates through buttons
+on a grid from one corner to another while avoiding randomly placed mines.
+
+
+INCLUDED FILES:
+
+ * README - this file
+ * MineWalkerPanel.java - game code
+ * MineWalker.java - driver
+ * RandomWalk.java - code to create path on a grid
+
+
+BUILDING AND RUNNING:
+
+All project files should be in the same directory.
+
+From the directory containing the .java source code, compile the program:
+    $ javac MineWalker.java
+
+Run the program from the directory containing MineWalker.class:
+    $ java MineWalker
+
+The GUI will pop up and allow the user to play the game. Set the grid size and 
+difficulty on the bottom and click New Game. Move by clicking buttons on the 
+grid. No jumping. The color of your position tells you how many mines are around
+you. Get to the top left corner to win.
+
+
+PROJECT DESIGN NOTES:
+
+MineWalkerPanel first creates the GUI, using a border layout. Panels are designed in 
+separate methods, which are then called in the init() method to add the panels to the frame.
+After the panels are added, an ActionListener waits for input from the user. 
+When the user clicks a button, corresponding methods are called. When a new game is started,
+the grid is created using the specified size. A path is set using RandomWalk.java, and mines 
+are set around that path. The percent of mines is determined by the JSlider at the bottom of
+the GUI, and is a percent of empty JButtons (not including those taken by the path). 
+An animation thread causes the user's position to flash an X on the corresponding JButton. 
+The action listener waits for a valid JButton on the grid to be clicked (that is, a button 
+on the grid within one vertical or horizontal button of the current position, given that it
+is not a mine that has previously been clicked on). The current position JButton will be 
+colored based on the number of live mines surrounding. Once a mine is clicked on, the user
+returns to the previous position, and that mine can no longer be moved to. The game ends when
+the user clicks on 5 mines or makes it to the top left JButton on the grid, at which point, a
+window pops up explaining how the results of the game. At any point during or after a game, 
+the user can display a valid path, as well as where the mines are positioned. Before a new game
+is started the user can specify the game settings, including % mines and grid size. The user
+begins with 500 points. Each move takes away 1 point. Each mine clicked on takes away 100 points.
+If the user makes it to the top left corner, the user receives 100 bonus points for every 
+leftover life. The points and lives are displayed as JLabels in real time. 
+
+I set the mines by using a random number generator to choose valid x and y coordinates. Then I 
+checked if the position belonged to the generated path. If not, it is added to a point array list
+of mines. This is done until list is the appropriate length (specified by %mines). 
+
+When setting the grid Size, I had to use a try/catch in case the user input something in the text
+box couldn't be parsed as an int or was too big / too small. If so, the default size (10x10) was used, 
+and a note displays in the text box explaining the error for the following game.
+
+I used switch statements for determining the color of the current position. I did this by determining 
+whether the list of valid moves available (determined in another method) included a position that 
+was contained in the mines array list. 
+
+TESTING:
+
+I tested this program by running the GUI after just about every line of code. Once the GUI design 
+was functional, testing the game was pretty fun (when I didn't run into problems). I checked everything,
+including counting the number of mines to make sure it matched correctly with slider value, making sure
+mines couldn't be clicked on more than once, making sure the game ended after 5 mines were clicked or 
+the last button was clicked, checking that the gridSize text area worked correctly, checking that the
+text on the buttons displayed correctly, checking that the colors were all correct... the list goes on.
+I probably played the game through hundreds of times, just trying every combination of clicks I could
+think of. The show mines button was particularly helpful for a lot of the testing.
+
+DISCUSSION:
+
+This project was probably my favorite of the 5 we did. There were a surprising number of hiccups that
+had me stumped for hours. Often it ended up being an easy fix that just took forever to find. One problem
+I had was that the coordinates of the mines were backwards. It was an easy fix, but it had me stumped 
+for awhile since I hadn't properly checked that the mines were placed correctly before moving forward.
+I really enjoyed figuring out how to implement things like determining valid moves and setting the mines
+randomly. Most of the solutions seemed pretty straightforward and came pretty naturally with few problems,
+so that was really cool. Array lists seem particularly useful given all the methods that can be used on 
+them, especially the removeAll() method, which I used to take out the craters from the array list of 
+valid moves. Honestly, working out the GUI was probably the most annoying part of this project. There 
+was a lot of trial and error and reading tutorials. Now it seems relatively simple and I can't understand 
+why it was so much trouble for me.
+
+Overall it was a great project.
+
+EXTRA CREDIT:
+
+1. I included a slider for setting the percent of mines. 
